@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+
+@theme {
+  --bgColor: #1f2937;
+  --gray-transparent-bg: rgb(17, 24, 39, 0.8);
+  --font-retro: "Press Start 2P", system-ui;
+}
+
+* {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
