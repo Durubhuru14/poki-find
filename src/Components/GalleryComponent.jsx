@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PokemonCardComponent from "./pokemonCardComponent";
+import PokemonCardComponent from "./PokemonCardComponent";
 import Pagination from "./PaginationComponent";
 import { Spinner, Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
