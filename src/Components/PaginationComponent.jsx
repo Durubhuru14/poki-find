@@ -4,7 +4,7 @@ function Component({ totalPages, currentPage, setCurrentPage }) {
   const onPageChange = (page) => setCurrentPage(page);
 
   return (
-    <div className="flex overflow-x-auto justify-center">
+    <div className="flex overflow-x-auto justify-center fixed bottom-0 left-1/2">
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
