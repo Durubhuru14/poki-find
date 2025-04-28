@@ -19,7 +19,7 @@ const TypeCard = ({ type }) => {
 const PokemonCardComponent = ({ pokemon }) => {
   const { id, name, sprite, types } = pokemon;
   return (
-    <section className="h-[250px] bg-gray-300 dark:bg-gray-600 rounded-md p-4">
+    <section className="h-[250px] bg-gray-300 dark:bg-gray-600 rounded-md p-4 overflow-hidden">
       <div className="bg-gray-50 h-2/4 flex justify-center items-center rounded-lg dark:bg-gray-700">
         <img src={sprite} alt={name} />
       </div>

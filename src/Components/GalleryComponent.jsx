@@ -104,7 +104,7 @@ const Gallery = () => {
 
   return (
     <div className="w-screen h-[89%]">
-      <div className="w-full h-[90%] grid gap-4 p-4 grid-cols-1 min-[390px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+      <div className="w-full h-[91%] grid gap-4 p-4 grid-cols-1 min-[390px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {currentPagePokemon.map((pokemon) => {
           return <PokemonCardComponent pokemon={pokemon} key={pokemon.id} />;
         })}
