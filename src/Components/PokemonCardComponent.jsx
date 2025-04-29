@@ -8,7 +8,7 @@ const TypeCard = ({ type }) => {
 
   return (
     <span
-      className="inline-block p-2 rounded-md"
+      className="inline-block p-2 rounded-md text-xs"
       style={{ background: colorCodeOfType.color }}
     >
       {type}
