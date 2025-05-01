@@ -54,7 +54,9 @@ export default function NavbarComponent() {
               })}
             </Select>
           </div>
-          <Button className="cursor-pointer">Search</Button>
+          <Button className="cursor-pointer" aria-label="Search Pokémon">
+            Search
+          </Button>
         </div>
       </NavbarCollapse>
     </Navbar>

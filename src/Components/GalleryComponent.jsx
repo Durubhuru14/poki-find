@@ -1,83 +1,21 @@
-import { useEffect, useState } from "react";
+// Component import
 import PokemonCardComponent from "./PokemonCardComponent";
 import Pagination from "./PaginationComponent";
+
+// Flowbite imports
 import { Spinner, Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 
-import getFirst150Pokemon from "../utils/getFirst150Pokemon";
-import {
-  getLocalStorage,
-  setToLocalStorage,
-} from "../utils/localStorageGetterAndSetter";
-import { useSearch } from "../context/SearchContext";
-
-const CARDS_PER_PAGE = 10;
+// Custom hooks
+import usePokemonData from "../Hooks/usePokemonData";
+import usePagination from "../hooks/usePagination";
+import useSearchFilter from "../hooks/useSearchFilter";
 
 const Gallery = () => {
-  const { searchQuery, selectedType } = useSearch();
-  const [pokemonData, setPokemonData] = useState([]);
-  const [filteredPokemonList, setFilteredPokemonList] = useState([]);
-  const [currentPagePokemon, setCurrentPagePokemon] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-
-  useEffect(() => {
-    const fetchPokemonData = async () => {
-      try {
-        setIsLoading(true);
-        setIsError(false);
-
-        const cachedData = getLocalStorage();
-
-        if (cachedData) {
-          setPokemonData(cachedData);
-          setIsLoading(false);
-          return;
-        }
-        const freshData = await getFirst150Pokemon();
-        setPokemonData(freshData);
-        setToLocalStorage(freshData);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching Pokémon:", error);
-        setIsError(true);
-        setIsLoading(false);
-      }
-    };
-    fetchPokemonData();
-  }, []);
-
-  useEffect(() => {
-    if (pokemonData.length > 0) {
-      const filtered = pokemonData.filter((pokemon) => {
-        const matchesSearch = pokemon.name
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
-        const matchesType =
-          selectedType === "All" ||
-          pokemon.types.includes(selectedType.toLowerCase());
-        return matchesSearch && matchesType;
-      });
-
-      setFilteredPokemonList(filtered);
-      setTotalPages(Math.ceil(filtered.length / CARDS_PER_PAGE));
-      setCurrentPage(1);
-    }
-  }, [pokemonData, searchQuery, selectedType]);
-
-  useEffect(() => {
-    if (filteredPokemonList.length > 0) {
-      const lastCardIndex = CARDS_PER_PAGE * currentPage;
-      const firstCardIndex = lastCardIndex - CARDS_PER_PAGE;
-      setCurrentPagePokemon(
-        filteredPokemonList.slice(firstCardIndex, lastCardIndex)
-      );
-    } else {
-      setCurrentPagePokemon([]);
-    }
-  }, [currentPage, filteredPokemonList]);
+  const { pokemonData, isError, isLoading } = usePokemonData();
+  const { filteredPokemonList } = useSearchFilter(pokemonData);
+  const { currentPage, currentPagePokemon, setCurrentPage, totalPages } =
+    usePagination(filteredPokemonList);
 
   if (isLoading) {
     return (

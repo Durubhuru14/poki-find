@@ -212,6 +212,7 @@ The folder structure of this app is explained below:
 | **src**            | Contains source code that will be compiled to the dist dir                                                                              |
 | **src/components** | Contains all the components of React App                                                                                                |
 | **src/context**    | Contains context to consumed by consumers elements (SearchContext.jsx is used to provide a bridge between gallery and navbar component) |
+| **src/hooks**    | Contains custom hooks created by developer to concise the logic at one place. |
 | **src/utils**      | Utils contains all the helper functions for react app                                                                                   |
 | **src/assets**     | Assets for React app (Like images)                                                                                                      |
 | **src**/index.jsx  | Entry of React App                                                                                                                      |

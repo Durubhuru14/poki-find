@@ -1,6 +1,10 @@
 import { nanoid } from "nanoid";
 import typesOfPokemon from "../utils/typesOfPokemon";
 
+import { useState, useEffect } from "react";
+import { FcRemoveImage } from "react-icons/fc";
+import { Spinner } from "flowbite-react";
+
 const TypeCard = ({ type }) => {
   const colorCodeOfType = typesOfPokemon.find(
     (typeOfPokemon) => typeOfPokemon.type.toLowerCase() === type.toLowerCase()
@@ -16,14 +20,50 @@ const TypeCard = ({ type }) => {
   );
 };
 
+const PokemonSpriteLazyLoad = ({ sprite, name }) => {
+  const [status, setStatus] = useState("loading");
+
+  useEffect(() => {
+    if (!sprite) {
+      setStatus("error");
+      return;
+    }
+
+    const img = new Image();
+    img.onload = () => setStatus("loaded");
+    img.onerror = () => setStatus("error");
+    img.src = sprite;
+
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [sprite]);
+
+  return (
+    <div className="relative mb-2 bg-gray-50 h-[120px] rounded-lg dark:bg-gray-700 flex items-center justify-center">
+      {status === "loading" && <Spinner size="lg" />}
+
+      {status === "error" && (
+        <div className="flex flex-col items-center gap-2 text-gray-400">
+          <FcRemoveImage className="text-3xl" />
+          <span className="text-xs">Image unavailable</span>
+        </div>
+      )}
+
+      {status === "loaded" && (
+        <img src={sprite} alt={name} className="w-full h-full object-contain" />
+      )}
+    </div>
+  );
+};
+
 const PokemonCardComponent = ({ pokemon }) => {
   const { id, name, sprite, types } = pokemon;
   return (
-    <section className="h-[250px] bg-gray-300 dark:bg-gray-600 rounded-md p-4 overflow-hidden">
-      <div className="bg-gray-50 h-2/4 flex justify-center items-center rounded-lg dark:bg-gray-700">
-        <img src={sprite} alt={name} />
-      </div>
+    <section className="h-[260px] bg-gray-300 dark:bg-gray-600 rounded-md p-4 overflow-hidden">
       <div className="mt-2 font-retro text-xs dark:bg-gray-600 dark:text-gray-100">
+        <PokemonSpriteLazyLoad sprite={sprite} name={name} />
         <p className="text-cyan-700 dark:text-cyan-300"> ID: {id}</p>
         <p className="text-rose-700 dark:text-rose-300 mt-1"> Name: {name}</p>
         <div className="mt-2">
