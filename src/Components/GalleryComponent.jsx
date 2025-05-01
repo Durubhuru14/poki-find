@@ -11,6 +11,18 @@ import usePokemonData from "../hooks/usePokemonData";
 import usePagination from "../hooks/usePagination";
 import useSearchFilter from "../hooks/useSearchFilter";
 
+/**
+ * Gallery component that displays a collection of Pokemon cards with pagination.
+ * Handles loading states, error states, and filtered Pokemon data display.
+ *
+ * @component
+ * @returns {JSX.Element} The Gallery component with Pokemon cards and pagination controls
+ *
+ * @example
+ * // Usage example
+ * <Gallery />
+ */
+
 const Gallery = () => {
   const { pokemonData, isError, isLoading } = usePokemonData();
   const { filteredPokemonList } = useSearchFilter(pokemonData);

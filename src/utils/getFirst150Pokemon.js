@@ -2,6 +2,17 @@ import pokeAPIFetch from "./customFetch";
 
 const BATCH_SIZE = 6;
 
+/**
+ * Fetches and transforms data for the first 150 Pokémon from PokeAPI
+ * @async
+ * @function getFirst150Pokemon
+ * @returns {Promise<Pokemon[]>} Array of Pokémon objects with essential data
+ * @throws {Error} When the initial batch request fails
+ * @example
+ * const pokemonData = await getFirst150Pokemon();
+ * // Returns: [{ id: 1, name: 'bulbasaur', types: ['grass'], sprite: '...' }, ...]
+ */
+
 async function getFirst150Pokemon() {
   try {
     const listResponse = await pokeAPIFetch.get("/?limit=150");

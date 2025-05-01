@@ -5,6 +5,16 @@ import { useState, useEffect } from "react";
 import { FcRemoveImage } from "react-icons/fc";
 import { Spinner } from "flowbite-react";
 
+/**
+ * Displays a colored badge for a Pokemon type.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.type - Pokemon type to display
+ * @returns {JSX.Element} Styled type badge
+ * @private
+ */
+
 const TypeCard = ({ type }) => {
   const colorCodeOfType = typesOfPokemon.find(
     (typeOfPokemon) => typeOfPokemon.type.toLowerCase() === type.toLowerCase()
@@ -19,6 +29,17 @@ const TypeCard = ({ type }) => {
     </span>
   );
 };
+
+/**
+ * Handles lazy loading of Pokemon sprites with loading and error states.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.sprite - URL of the sprite image
+ * @param {string} props.name - Pokemon name (for alt text)
+ * @returns {JSX.Element} Sprite container with loading/error states
+ * @private
+ */
 
 const PokemonSpriteLazyLoad = ({ sprite, name }) => {
   const [status, setStatus] = useState("loading");
@@ -57,6 +78,28 @@ const PokemonSpriteLazyLoad = ({ sprite, name }) => {
     </div>
   );
 };
+
+/**
+ * Displays a Pokemon card with sprite, ID, name, and types.
+ * Includes lazy loading and error handling for the Pokemon sprite.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.pokemon - Pokemon data object
+ * @param {string} props.pokemon.id - Pokemon ID
+ * @param {string} props.pokemon.name - Pokemon name
+ * @param {string} props.pokemon.sprite - URL of Pokemon sprite image
+ * @param {string[]} props.pokemon.types - Array of Pokemon types
+ * @returns {JSX.Element} Pokemon card component
+ *
+ * @example
+ * <PokemonCardComponent pokemon={{
+ *   id: "25",
+ *   name: "Pikachu",
+ *   sprite: "https://raw.githubusercontent.com/pokeapi/sprites/master/sprites/pokemon/25.png",
+ *   types: ["Electric"]
+ * }} />
+ */
 
 const PokemonCardComponent = ({ pokemon }) => {
   const { id, name, sprite, types } = pokemon;

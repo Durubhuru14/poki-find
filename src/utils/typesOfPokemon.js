@@ -1,3 +1,28 @@
+/**
+ * Array of Pokemon types with their associated colors.
+ * Provides a comprehensive list of all Pokemon types with official color codes.
+ *
+ * @constant {Array<Object>} typesOfPokemon
+ * @property {string} type - The name of the Pokemon type (e.g., "Fire", "Water")
+ * @property {string} color - The hexadecimal color code associated with the type
+ *
+ * @example
+ * // Find a specific type's color
+ * const fireType = typesOfPokemon.find(t => t.type === "Fire");
+ * console.log(fireType.color); // "#f08030"
+ *
+ * @example
+ * // Map to select options
+ * const typeOptions = typesOfPokemon.map(({ type }) => type);
+ *
+ * @description
+ * Contains all standard Pokemon types including:
+ * - Normal, Fire, Water, Electric, Grass
+ * - Ice, Fighting, Poison, Ground, Flying
+ * - Psychic, Bug, Rock, Ghost, Dragon
+ * - Dark, Steel, Fairy, Stellar
+ */
+
 const typesOfPokemon = [
   { type: "Normal", color: "#a8a878" },
   { type: "Fire", color: "#f08030" },

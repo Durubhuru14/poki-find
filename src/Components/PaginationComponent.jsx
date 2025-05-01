@@ -1,6 +1,25 @@
 import { Pagination } from "flowbite-react";
 
-function Component({ totalPages, currentPage, setCurrentPage }) {
+/**
+ * Pagination component that displays page navigation controls.
+ * Fixed at the bottom center of the viewport and horizontally scrollable if needed.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {number} props.totalPages - Total number of available pages
+ * @param {number} props.currentPage - Currently active page (1-based index)
+ * @param {function} props.setCurrentPage - Callback function to update the current page
+ * @returns {JSX.Element} Fixed position pagination controls
+ *
+ * @example
+ * <PaginationComponent
+ *   totalPages={10}
+ *   currentPage={3}
+ *   setCurrentPage={setCurrentPage}
+ * />
+ */
+
+function PaginationComponent({ totalPages, currentPage, setCurrentPage }) {
   const onPageChange = (page) => setCurrentPage(page);
 
   return (
@@ -14,4 +33,4 @@ function Component({ totalPages, currentPage, setCurrentPage }) {
   );
 }
 
-export default Component;
+export default PaginationComponent;

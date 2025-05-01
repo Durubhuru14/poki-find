@@ -11,13 +11,49 @@ import typesOfPokemon from "../utils/typesOfPokemon";
 import { useSearch } from "../context/SearchContext";
 import logo from "../assets/pokeball.png";
 
+/**
+ * Navigation bar component for the PokiFind application with search functionality.
+ * Includes:
+ * - Brand logo and title
+ * - Search input field for Pokemon names
+ * - Type selection dropdown filter
+ * - Responsive design that collapses on smaller screens
+ *
+ * @component
+ * @returns {JSX.Element} The navigation bar with search controls
+ *
+ * @example
+ * // Usage example
+ * <NavbarComponent />
+ *
+ * @property {function} handleSelect - Handles Pokemon type selection changes
+ * @property {function} handleInput - Handles search input changes
+ *
+ * @see {@link useSearch} for search state management
+ * @see {@link typesOfPokemon} for available Pokemon types data
+ */
+
 export default function NavbarComponent() {
   const { searchQuery, setSearchQuery, selectedType, setSelectedType } =
     useSearch();
 
+  /**
+   * Handles the Pokemon type selection change event.
+   * Updates the selectedType state in the search context.
+   *
+   * @param {Object} e - The change event from the select element
+   */
+
   const handleSelect = (e) => {
     setSelectedType(e.target.value);
   };
+
+  /**
+   * Handles the search input change event.
+   * Updates the searchQuery state in the search context.
+   *
+   * @param {Object} e - The change event from the input element
+   */
 
   const handleInput = (e) => {
     setSearchQuery(e.target.value);
