@@ -7,7 +7,7 @@ import { Spinner, Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 
 // Custom hooks
-import usePokemonData from "../Hooks/usePokemonData";
+import usePokemonData from "../hooks/usePokemonData";
 import usePagination from "../hooks/usePagination";
 import useSearchFilter from "../hooks/useSearchFilter";
 
