@@ -32,7 +32,7 @@ import {
  */
 
 const usePokemonData = () => {
-  const [pokemonData, setPokemonData] = useState([]);
+  const [pokemonData, setPokemonData] = useState(new Map());
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   useEffect(() => {
@@ -44,13 +44,14 @@ const usePokemonData = () => {
         const cachedData = getLocalStorage();
 
         if (cachedData) {
-          setPokemonData(cachedData);
+          const cachedDataMap = new Map(cachedData.map((p) => [p.id, p]));
+          setPokemonData(cachedDataMap);
           setIsLoading(false);
           return;
         }
         const freshData = await getFirst150Pokemon();
         setPokemonData(freshData);
-        setToLocalStorage(freshData);
+        setToLocalStorage(Array.from(freshData.values()));
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching Pokémon:", error);

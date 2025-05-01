@@ -2,23 +2,13 @@ import pokeAPIFetch from "./customFetch";
 
 const BATCH_SIZE = 6;
 
-/**
- * Fetches and transforms data for the first 150 Pokémon from PokeAPI
- * @async
- * @function getFirst150Pokemon
- * @returns {Promise<Pokemon[]>} Array of Pokémon objects with essential data
- * @throws {Error} When the initial batch request fails
- * @example
- * const pokemonData = await getFirst150Pokemon();
- * // Returns: [{ id: 1, name: 'bulbasaur', types: ['grass'], sprite: '...' }, ...]
- */
-
 async function getFirst150Pokemon() {
   try {
     const listResponse = await pokeAPIFetch.get("/?limit=150");
     const pokemonList = listResponse.data.results;
 
-    const allPokemon = [];
+    const pokemonMap = new Map();
+
     for (let i = 0; i < pokemonList.length; i += BATCH_SIZE) {
       const batch = pokemonList.slice(i, i + BATCH_SIZE);
 
@@ -26,7 +16,68 @@ async function getFirst150Pokemon() {
         batch.map((pokemon) =>
           pokeAPIFetch
             .get(pokemon.url)
-            .then((res) => ({ data: res.data }))
+            .then(async (res) => {
+              const pokemonData = res.data;
+
+              const speciesResponse = await pokeAPIFetch.get(
+                pokemonData.species.url
+              );
+              const speciesData = speciesResponse.data;
+
+              let evolutionChain = null;
+              if (speciesData.evolution_chain?.url) {
+                try {
+                  const evolutionResponse = await pokeAPIFetch.get(
+                    speciesData.evolution_chain.url
+                  );
+                  evolutionChain = extractEvolutionChain(
+                    evolutionResponse.data.chain
+                  );
+                } catch (error) {
+                  console.warn(
+                    `Evolution chain error for ${pokemonData.name}:`,
+                    error.message
+                  );
+                }
+              }
+
+              const stats = {};
+              for (const stat of pokemonData.stats) {
+                const statName = stat.stat.name.replace("-", "_");
+                stats[statName] = stat.base_stat;
+              }
+
+              const abilities = [];
+              for (const ability of pokemonData.abilities) {
+                abilities.push({
+                  name: ability.ability.name,
+                  is_hidden: ability.is_hidden,
+                });
+              }
+
+              const moves = [];
+              for (const move of pokemonData.moves) {
+                moves.push(move.move.name);
+              }
+
+              return {
+                id: pokemonData.id,
+                name: pokemonData.name,
+                types: pokemonData.types.map((t) => t.type.name),
+                sprite: pokemonData.sprites.front_default,
+                stats: {
+                  hp: stats.hp || 0,
+                  attack: stats.attack || 0,
+                  defense: stats.defense || 0,
+                  special_attack: stats.special_attack || 0,
+                  special_defense: stats.special_defense || 0,
+                  speed: stats.speed || 0,
+                },
+                abilities,
+                moves,
+                evolution: evolutionChain,
+              };
+            })
             .catch((err) => {
               console.warn(`Failed to fetch ${pokemon.name}:`, err.message);
               return null;
@@ -34,23 +85,39 @@ async function getFirst150Pokemon() {
         )
       );
 
-      allPokemon.push(
-        ...batchResults
-          .filter((res) => res.status === "fulfilled" && res.value?.data)
-          .map((res) => res.value.data)
-      );
+      batchResults
+        .filter((res) => res.status === "fulfilled" && res.value)
+        .forEach((res) => {
+          pokemonMap.set(res.value.id, res.value);
+        });
     }
 
-    return allPokemon.map((pokemon) => ({
-      id: pokemon.id,
-      name: pokemon.name,
-      types: pokemon.types.map((t) => t.type.name),
-      sprite: pokemon.sprites.front_default,
-    }));
+    return pokemonMap;
   } catch (error) {
     console.error("Critical fetch error:", error);
     throw error;
   }
+}
+
+function extractEvolutionChain(chain) {
+  const evolutionChain = [];
+  let current = chain;
+
+  while (current) {
+    evolutionChain.push({
+      species: current.species.name,
+      evolves_to: [],
+      details: current.evolution_details[0]
+        ? {
+            min_level: current.evolution_details[0].min_level,
+            trigger: current.evolution_details[0].trigger?.name,
+            item: current.evolution_details[0].item?.name,
+          }
+        : null,
+    });
+    current = current.evolves_to[0];
+  }
+  return evolutionChain;
 }
 
 export default getFirst150Pokemon;

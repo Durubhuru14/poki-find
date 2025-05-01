@@ -6,7 +6,7 @@ import { useSearch } from "../context/SearchContext";
  * Combines both name-based search and type filtering in a single operation.
  *
  * @function
- * @param {Array} pokemonData - The complete list of Pokemon to filter
+ * @param {Map} pokemonData - The complete list of Pokemon to filter
  * @returns {Object} An object containing the filtered results
  * @returns {Array} filteredPokemonList - The filtered array of Pokemon matching search criteria
  *
@@ -33,9 +33,9 @@ import { useSearch } from "../context/SearchContext";
 const useSearchFilter = (pokemonData) => {
   const { searchQuery, selectedType } = useSearch();
   const filteredPokemonList = useMemo(() => {
-    if (pokemonData.length === 0) return [];
+    if (pokemonData.size === 0) return [];
 
-    return pokemonData.filter((pokemon) => {
+    return Array.from(pokemonData.values()).filter((pokemon) => {
       const matchesSearch = pokemon.name
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
