@@ -151,9 +151,19 @@ flowchart TD
     I --> J[Search/Filter Components]
     J -->|Updates UI| I
 
-    style C fill:#ecfdf5,stroke:#059669
-    style D fill:#f0f9ff,stroke:#0369a1
-    style G fill:#fee2e2,stroke:#b91c1c
+    style A fill:#2563eb,stroke:#1e40af,color:#ffffff
+    style B fill:#7c3aed,stroke:#5b21b6,color:#ffffff
+    style C fill:#10b981,stroke:#059669,color:#000000
+    style D fill:#3b82f6,stroke:#1d4ed8,color:#ffffff
+    style E fill:#a855f7,stroke:#7e22ce,color:#ffffff
+    style F fill:#f59e0b,stroke:#d97706,color:#000000
+    style G fill:#ef4444,stroke:#dc2626,color:#ffffff
+    style H fill:#84cc16,stroke:#65a30d,color:#000000
+    style I fill:#f97316,stroke:#ea580c,color:#000000
+    style J fill:#8b5cf6,stroke:#7c3aed,color:#ffffff
+
+    classDef lightMode fill:#f0f9ff,stroke:#0369a1,color:#000000
+    classDef darkMode fill:#1e293b,stroke:#7dd3fc,color:#ffffff
 ```
 
 ## 🌐 API Used
@@ -212,7 +222,7 @@ The folder structure of this app is explained below:
 | **src**            | Contains source code that will be compiled to the dist dir                                                                              |
 | **src/components** | Contains all the components of React App                                                                                                |
 | **src/context**    | Contains context to consumed by consumers elements (SearchContext.jsx is used to provide a bridge between gallery and navbar component) |
-| **src/hooks**    | Contains custom hooks created by developer to concise the logic at one place. |
+| **src/hooks**      | Contains custom hooks created by developer to concise the logic at one place.                                                           |
 | **src/utils**      | Utils contains all the helper functions for react app                                                                                   |
 | **src/assets**     | Assets for React app (Like images)                                                                                                      |
 | **src**/index.jsx  | Entry of React App                                                                                                                      |

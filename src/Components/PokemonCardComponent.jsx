@@ -41,7 +41,7 @@ const PokemonSpriteLazyLoad = ({ sprite, name }) => {
   }, [sprite]);
 
   return (
-    <div className="relative mb-2 bg-gray-50 h-[120px] rounded-lg dark:bg-gray-700 flex items-center justify-center">
+    <div className="relative mb-2 text-center bg-gray-50 h-[120px] rounded-lg dark:bg-gray-700 flex items-center justify-center">
       {status === "loading" && <Spinner size="lg" />}
 
       {status === "error" && (
